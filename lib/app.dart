@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_project_module18/ui/screens/add_new_task_screen.dart';
 import 'package:task_management_project_module18/ui/screens/bottom_nav_screen.dart';
 import 'package:task_management_project_module18/ui/screens/forgot_password_screen.dart';
 import 'package:task_management_project_module18/ui/screens/otp_verify_screen.dart';
@@ -6,6 +7,7 @@ import 'package:task_management_project_module18/ui/screens/set_new_password.dar
 import 'package:task_management_project_module18/ui/screens/sign_in_screen.dart';
 import 'package:task_management_project_module18/ui/screens/sign_up_screen.dart';
 import 'package:task_management_project_module18/ui/screens/splash_screen.dart';
+import 'package:task_management_project_module18/ui/screens/update_profile_screen.dart';
 
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
@@ -14,6 +16,7 @@ class TaskManagerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.green.shade50,
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
             fixedSize: Size.fromWidth(double.maxFinite),
@@ -75,6 +78,8 @@ class TaskManagerApp extends StatelessWidget {
         OtpVerifyScreen.name : (_) => OtpVerifyScreen(),
         SetNewPassword.name : (_) => SetNewPassword(),
         BottomNavScreen.name : (_) => BottomNavScreen(),
+        AddNewTaskScreen.name : (_) => AddNewTaskScreen(),
+        UpdateProfileScreen.name : (_) => UpdateProfileScreen(),
       },
       initialRoute: SplashScreen.name,
     );
