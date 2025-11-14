@@ -25,37 +25,41 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       body: ScreenBackground(
         child: Padding(
           padding: const EdgeInsets.all(30),
-          child: Column(
-            spacing: 8,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Update Profile',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24,
-                  color: Colors.black,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 60,),
+                Text(
+                  'Update Profile',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-              SizedBox(height: 8),
-              //TODO: add select photo section...//
-              GestureDetector(
-                onTap: (){},
-                  child: photo_peaker(),
-              ),
-              //photo peaker............//
-              TextFormField(decoration: InputDecoration(hintText: 'Email')),
-              TextFormField(decoration: InputDecoration(hintText: 'First Name')),
-              TextFormField(decoration: InputDecoration(hintText: 'Last Name')),
-              TextFormField(decoration: InputDecoration(hintText: 'Mobile')),
-              TextFormField(decoration: InputDecoration(hintText: 'Password')),
-              SizedBox(height: 8),
-              FilledButton(
-                onPressed: _onTapUpdateProfileButton,
-                child: Icon(Icons.arrow_circle_right_outlined),
-              ),
-            ],
+                SizedBox(height: 8),
+                //TODO: add select photo section...//
+                GestureDetector(
+                  onTap: (){},
+                    child: photo_peaker(),
+                ),
+                //photo peaker............//
+                TextFormField(decoration: InputDecoration(hintText: 'Email')),
+                TextFormField(decoration: InputDecoration(hintText: 'First Name')),
+                TextFormField(decoration: InputDecoration(hintText: 'Last Name')),
+                TextFormField(decoration: InputDecoration(hintText: 'Mobile')),
+                TextFormField(decoration: InputDecoration(hintText: 'Password')),
+                SizedBox(height: 8),
+                FilledButton(
+                  onPressed: _onTapUpdateProfileButton,
+                  child: Icon(Icons.arrow_circle_right_outlined),
+                ),
+              ],
+            ),
           ),
         ),
       ),
