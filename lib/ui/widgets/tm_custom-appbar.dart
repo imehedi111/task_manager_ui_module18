@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:task_management_project_module18/ui/screens/update_profile_screen.dart';
 
 class TMCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const TMCustomAppBar({super.key});
+  const TMCustomAppBar({super.key, this.fromUpdateProfile = false});
+
+  final bool fromUpdateProfile;
 
   void _onTapProfileImage(BuildContext context){
-    Navigator.pushNamed(context, UpdateProfileScreen.name);
+    if(fromUpdateProfile){
+      return;
+    }else {
+      Navigator.pushNamed(context, UpdateProfileScreen.name);
+    }
   }
 
   @override

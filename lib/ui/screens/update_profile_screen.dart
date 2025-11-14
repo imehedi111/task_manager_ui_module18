@@ -4,6 +4,8 @@ import 'package:task_management_project_module18/ui/screens/new_task_screen.dart
 import 'package:task_management_project_module18/ui/widgets/screen_background.dart';
 import 'package:task_management_project_module18/ui/widgets/tm_custom-appbar.dart';
 
+import '../widgets/photo_peaker.dart';
+
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
 
@@ -17,7 +19,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: TMCustomAppBar(), //Repeating same screen....//TODO:
+      appBar: TMCustomAppBar(
+        fromUpdateProfile: true,
+      ), //Repeating same screen....//TODO:
       body: ScreenBackground(
         child: Padding(
           padding: const EdgeInsets.all(30),
@@ -36,6 +40,11 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               ),
               SizedBox(height: 8),
               //TODO: add select photo section...//
+              GestureDetector(
+                onTap: (){},
+                  child: photo_peaker(),
+              ),
+              //photo peaker............//
               TextFormField(decoration: InputDecoration(hintText: 'Email')),
               TextFormField(decoration: InputDecoration(hintText: 'First Name')),
               TextFormField(decoration: InputDecoration(hintText: 'Last Name')),
@@ -57,3 +66,5 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   }
 }
+
+
