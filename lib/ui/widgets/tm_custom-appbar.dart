@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_management_project_module18/ui/controllers/authentication_controller.dart';
+import 'package:task_management_project_module18/ui/screens/sign_in_screen.dart';
 import 'package:task_management_project_module18/ui/screens/update_profile_screen.dart';
 
 class TMCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -6,10 +8,10 @@ class TMCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   final bool fromUpdateProfile;
 
-  void _onTapProfileImage(BuildContext context){
-    if(fromUpdateProfile){
+  void _onTapProfileImage(BuildContext context) {
+    if (fromUpdateProfile) {
       return;
-    }else {
+    } else {
       Navigator.pushNamed(context, UpdateProfileScreen.name);
     }
   }
@@ -22,7 +24,7 @@ class TMCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.green,
       title: GestureDetector(
-        onTap: ()=> _onTapProfileImage(context),
+        onTap: () => _onTapProfileImage(context),
         child: Row(
           spacing: 12,
           children: [
@@ -43,10 +45,21 @@ class TMCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ),
+      actions: [
+        IconButton(
+          onPressed: () async {
+            await AuthenticationController.clearUserData();
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              SignInScreen.name,
+              (predicate) => false,
+            );
+          },
+          icon: Icon(Icons.logout, color: Colors.white, size: 24),
+        ),
+      ],
     );
   }
-
-
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);

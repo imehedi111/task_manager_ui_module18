@@ -1,15 +1,18 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
+import 'package:task_management_project_module18/ui/controllers/authentication_controller.dart';
 
 class NetworkCaller {
-  Future<NetworkResponse> getRequest(String url) async {
+  static Future<NetworkResponse> getRequest(String url) async {
     try {
       Uri uri = Uri.parse(url);
 
       _logRequest(url); //log request to see as dev....//
-      Response response = await get(uri);
-      _logResponse(url, response);//log response to see as dev....//
+      Response response = await get(uri, headers: {
+        'token' : AuthenticationController.accessToken ?? '',
+      });
+      _logResponse(url, response); //log response to see as dev....//
 
       final decodedData = jsonDecode(response.body);
 
@@ -23,9 +26,10 @@ class NetworkCaller {
         return NetworkResponse(
           isSuccess: false,
           responseCode: response.statusCode,
+          errorMessage: decodedData['data'],
         );
       }
-    }catch(e){
+    } catch (e) {
       return NetworkResponse(
         isSuccess: false,
         responseCode: -1,
@@ -33,18 +37,22 @@ class NetworkCaller {
       );
     }
   }
-  Future<NetworkResponse> postRequest(String url, Map<String, dynamic>? body) async {
+
+  static Future<NetworkResponse> postRequest(String url,
+      {Map<String, dynamic>? body}) async {
     try {
       Uri uri = Uri.parse(url);
 
-      _logRequest(url, body:  body); //log request to see as dev....//
+      _logRequest(url, body: body); //log request to see as dev....//
       Response response = await post(
-          uri,
-          headers: {
-            'Content-Type' : 'application/json'
-          },
-          body: jsonEncode(body));
-      _logResponse(url, response);//log response to see as dev....//
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
+          'token' : AuthenticationController.accessToken ?? '',
+        },
+        body: jsonEncode(body),
+      );
+      _logResponse(url, response); //log response to see as dev....//
 
       final decodedData = jsonDecode(response.body);
 
@@ -58,9 +66,10 @@ class NetworkCaller {
         return NetworkResponse(
           isSuccess: false,
           responseCode: response.statusCode,
+          errorMessage: decodedData['data'],
         );
       }
-    }catch(e){
+    } catch (e) {
       return NetworkResponse(
         isSuccess: false,
         responseCode: -1,
@@ -68,17 +77,21 @@ class NetworkCaller {
       );
     }
   }
+
   //method for log request check............//
-  void _logRequest(String url, {Map<String, dynamic>? body}){
-    debugPrint('URL: $url\n'
-      'Body: $body'
+  static void _logRequest(String url, {Map<String, dynamic>? body}) {
+    debugPrint(
+      'URL: $url\n'
+      'Body: $body',
     );
   }
+
   //method log response check.............//
-  void _logResponse(String url, Response response){
-    debugPrint('URL: $url\n'
+  static void _logResponse(String url, Response response) {
+    debugPrint(
+      'URL: $url\n'
       'Status Code: ${response.statusCode}\n'
-      'Body: ${response.body}'
+      'Body: ${response.body}',
     );
   }
 }
@@ -87,12 +100,12 @@ class NetworkResponse {
   final bool isSuccess;
   final int responseCode;
   final dynamic body;
-  final String? errorMessage;
+  final String errorMessage;
 
   NetworkResponse({
     required this.isSuccess,
     required this.responseCode,
     this.body,
-    this.errorMessage,
+    this.errorMessage = 'Something went wrong!',
   });
 }
