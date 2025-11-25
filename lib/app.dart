@@ -12,9 +12,12 @@ import 'package:task_management_project_module18/ui/screens/update_profile_scree
 class TaskManagerApp extends StatelessWidget {
   const TaskManagerApp({super.key});
 
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.green.shade50,
         filledButtonTheme: FilledButtonThemeData(

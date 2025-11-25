@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
+import 'package:task_management_project_module18/app.dart';
 import 'package:task_management_project_module18/ui/controllers/authentication_controller.dart';
+import 'package:task_management_project_module18/ui/screens/sign_in_screen.dart';
 
 class NetworkCaller {
   static Future<NetworkResponse> getRequest(String url) async {
@@ -22,7 +24,14 @@ class NetworkCaller {
           responseCode: response.statusCode,
           body: decodedData,
         );
-      } else {
+      } else if (response.statusCode == 401){
+        _onUnAthorize();
+        return NetworkResponse(
+          isSuccess: false,
+          responseCode: response.statusCode,
+          errorMessage: decodedData['Un-authorized'],
+        );
+      } else{
         return NetworkResponse(
           isSuccess: false,
           responseCode: response.statusCode,
@@ -62,6 +71,13 @@ class NetworkCaller {
           responseCode: response.statusCode,
           body: decodedData,
         );
+      } else if (response.statusCode == 401){
+        _onUnAthorize();
+        return NetworkResponse(
+          isSuccess: false,
+          responseCode: response.statusCode,
+          errorMessage: decodedData['Un-authorized'],
+        );
       } else {
         return NetworkResponse(
           isSuccess: false,
@@ -76,6 +92,11 @@ class NetworkCaller {
         errorMessage: e.toString(),
       );
     }
+  }
+
+  static void _onUnAthorize() async{
+    await AuthenticationController.clearUserData();
+    Navigator.pushNamed(TaskManagerApp.navigatorKey.currentContext!, SignInScreen.name);
   }
 
   //method for log request check............//

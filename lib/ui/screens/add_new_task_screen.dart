@@ -108,6 +108,8 @@ class _AddNewTaskScreenState extends State<AddNewTaskScreen> {
     if(response.isSuccess){
       _clearTextFields();
       showSnackBarMessage(context, 'New Task Added!');
+      //this line is for reload list page when pop....//
+      Navigator.pop(context, true);
     }else{
       showSnackBarMessage(context, response.errorMessage);
     }
