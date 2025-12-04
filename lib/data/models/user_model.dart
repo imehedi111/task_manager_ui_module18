@@ -4,8 +4,14 @@ class UserModel {
   final String firstName;
   final String lastName;
   final String mobile;
+  final String? photo;
+
+  String get fullName{
+    return '$firstName $lastName';
+  }
 
   UserModel({
+    this.photo,
     required this.id,
     required this.email,
     required this.firstName,
@@ -20,6 +26,7 @@ class UserModel {
       firstName: jsonData['firstName'],
       lastName: jsonData['lastName'],
       mobile: jsonData['mobile'],
+      photo: jsonData['photo'],
     );
   }
 
@@ -30,13 +37,7 @@ class UserModel {
       "firstName": firstName,
       "lastName": lastName,
       "mobile": mobile,
+      "photo": photo,
     };
   }
 }
-
-// "_id": "691abe6a880cc5d30a2ff7ac",
-// "email": "imehedi111@gmail.com",
-// "firstName": "Mehedi",
-// "lastName": "Hasan",
-// "mobile": "01670018475",
-// "createdDate": "2025-10-02T06:21:41.011Z"

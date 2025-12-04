@@ -50,7 +50,13 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                 primary: false,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return TaskCard(taskModel: _newTaskList[index]);
+                  return TaskCard(
+                    taskModel: _newTaskList[index],
+                    refreshList: () {
+                      _getNewTaskList();
+                      _getTaskCountList();
+                    },
+                  );
                 },
                 separatorBuilder: (context, index) {
                   return SizedBox(height: 12);
@@ -71,8 +77,8 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   }
 
   void _onTapAddNewTaskButton() {
-    Navigator.pushNamed(context, AddNewTaskScreen.name).then((value){
-      if(value == true){
+    Navigator.pushNamed(context, AddNewTaskScreen.name).then((value) {
+      if (value == true) {
         _getNewTaskList();
         _getTaskCountList();
       }
@@ -109,7 +115,10 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                           _taskCountList[index].sum.toString(),
                           style: TextTheme.of(context).titleMedium,
                         ),
-                        Text(_taskCountList[index].id, style: TextTheme.of(context).titleSmall),
+                        Text(
+                          _taskCountList[index].id,
+                          style: TextTheme.of(context).titleSmall,
+                        ),
                       ],
                     ),
                   ),

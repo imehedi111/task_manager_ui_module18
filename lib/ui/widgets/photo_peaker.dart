@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class photo_peaker extends StatelessWidget {
   const photo_peaker({
-    super.key,
+    super.key, required this.pickedImage,
   });
+  
+  final XFile? pickedImage;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class photo_peaker extends StatelessWidget {
             alignment: Alignment.center,
             child: Text('Photo', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500),),
           ),
-          Expanded(child: Text('Select photo')),
+          Expanded(child: pickedImage == null ? Text('Select photo') : Text(pickedImage!.name)),
         ],
       ),
     );

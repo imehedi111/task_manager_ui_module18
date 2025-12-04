@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:task_management_project_module18/ui/controllers/authentication_controller.dart';
 import 'package:task_management_project_module18/ui/screens/sign_in_screen.dart';
@@ -28,16 +30,18 @@ class TMCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Row(
           spacing: 12,
           children: [
-            CircleAvatar(),
+            CircleAvatar(
+              backgroundImage: MemoryImage(base64Decode(AuthenticationController.user!.photo ?? '')),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Md Mehedi Hasan',
+                  AuthenticationController.user?.fullName ?? '',
                   style: textTheme.bodyLarge?.copyWith(color: Colors.white),
                 ),
                 Text(
-                  'imehedi111@gmail.com',
+                  AuthenticationController.user?.email ?? '',
                   style: textTheme.bodySmall?.copyWith(color: Colors.white),
                 ),
               ],
