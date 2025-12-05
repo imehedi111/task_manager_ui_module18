@@ -155,6 +155,9 @@ class _SignInScreenState extends State<SignInScreen> {
     }else{
       showSnackBarMessage(context, response.errorMessage);
     }
+
+    _signingInProgress = false;
+    setState(() {});
   }
 
   void _onTapForgotPasswordButton() {

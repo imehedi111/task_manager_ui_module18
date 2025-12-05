@@ -83,7 +83,19 @@ class _SplashScreenState extends State<SplashScreen>
               opacity: _fadeAnimation,
               child: ScaleTransition(
                 scale: _scaleAnimation,
-                child: SvgPicture.asset(AssetsPaths.logoSvg),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AssetsPaths.logo2Svg),
+                      Text("My Task Manager App", style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
+                        color: Colors.green,
+                      ),),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),

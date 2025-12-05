@@ -19,11 +19,17 @@ class Urls{
 
   static const String updateProfileUrl = '$_baseUrl/ProfileUpdate';
 
+  static const String recoverResetPassUrl = '$_baseUrl/RecoverResetPassword';
+
 
 
   static String changeTaskStatusUrl(String taskId, String status) => '$_baseUrl/updateTaskStatus/$taskId/$status';
 
   static String deleteTaskUrl(String taskId) => '$_baseUrl/deleteTask/$taskId';
+
+  static String recoverVerifyEmailUrl(String email) => '$_baseUrl/RecoverVerifyEmail/$email';
+
+  static String recoverVerifyOtpUrl(String email, String otp) => '$_baseUrl/RecoverVerifyOtp/$email/$otp';
 
 
 }
