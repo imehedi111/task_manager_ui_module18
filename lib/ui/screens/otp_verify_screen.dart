@@ -1,14 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:task_management_project_module18/data/service/network_caller.dart';
+import 'package:provider/provider.dart';
+import 'package:task_management_project_module18/ui/providers/otp_verify_provider.dart';
 import 'package:task_management_project_module18/ui/screens/set_new_password.dart';
 import 'package:task_management_project_module18/ui/screens/sign_in_screen.dart';
 import 'package:task_management_project_module18/ui/widgets/center_circuler_progress.dart';
 import 'package:task_management_project_module18/ui/widgets/screen_background.dart';
 import 'package:task_management_project_module18/ui/widgets/snack_bar_message.dart';
-
-import '../../data/urls/urls.dart';
 
 class OtpVerifyScreen extends StatefulWidget {
   const OtpVerifyScreen({super.key});
@@ -24,93 +23,100 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
 
   late String email;
 
-  bool _verifyOtpInProgress = false;
+  final OtpVerifyProvider _otpVerifyProvider = OtpVerifyProvider();
 
   @override
   Widget build(BuildContext context) {
     email = ModalRoute.of(context)!.settings.arguments as String;
 
-    return Scaffold(
-      body: ScreenBackground(
-        child: Padding(
-          padding: const EdgeInsets.all(30),
-          child: Column(
-            spacing: 8,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'OTP Verification',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                'A 6 digit verification OTP/Pin has been send to your email address',
-                style: Theme.of(
-                  context,
-                ).textTheme.labelLarge?.copyWith(color: Colors.grey),
-              ),
-              SizedBox(height: 8),
-
-              /// new package pin code applied here
-              ///
-              PinCodeTextField(
-                controller: _otpController,
-                length: 6,
-                obscureText: false,
-                animationType: AnimationType.fade,
-                keyboardType: TextInputType.number,
-                pinTheme: PinTheme(
-                  shape: PinCodeFieldShape.box,
-                  borderRadius: BorderRadius.circular(5),
-                  fieldHeight: 50,
-                  fieldWidth: 50,
-                  activeFillColor: Colors.white,
-                  inactiveFillColor: Colors.white,
-                  selectedFillColor: Colors.white,
+    return ChangeNotifierProvider(
+      create: (_) => _otpVerifyProvider,
+      child: Scaffold(
+        body: ScreenBackground(
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: Column(
+              spacing: 8,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'OTP Verification',
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-                animationDuration: Duration(milliseconds: 300),
-                backgroundColor: Colors.transparent,
-                enableActiveFill: true,
-                appContext: context,
-              ),
-
-              ///
-              ///
-              SizedBox(height: 8),
-              Visibility(
-                visible: _verifyOtpInProgress == false,
-                replacement: center_circular_progress_indicator(),
-                child: FilledButton(
-                  onPressed: _onTapOtpVerifyButton,
-                  child: Text('Verify'),
+                Text(
+                  'A 6 digit verification OTP/Pin has been send to your email address',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelLarge?.copyWith(color: Colors.grey),
                 ),
-              ),
-              SizedBox(height: 30),
-              Center(
-                child: Column(
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
-                        text: "Have account? ",
-                        children: [
-                          TextSpan(
-                            style: TextStyle(color: Colors.green),
-                            text: 'Sign in',
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = _onTapSignInButton,
-                          ),
-                        ],
+                SizedBox(height: 8),
+
+                /// new package pin code applied here
+                ///
+                PinCodeTextField(
+                  controller: _otpController,
+                  length: 6,
+                  obscureText: false,
+                  animationType: AnimationType.fade,
+                  keyboardType: TextInputType.number,
+                  pinTheme: PinTheme(
+                    shape: PinCodeFieldShape.box,
+                    borderRadius: BorderRadius.circular(5),
+                    fieldHeight: 50,
+                    fieldWidth: 50,
+                    activeFillColor: Colors.white,
+                    inactiveFillColor: Colors.white,
+                    selectedFillColor: Colors.white,
+                  ),
+                  animationDuration: Duration(milliseconds: 300),
+                  backgroundColor: Colors.transparent,
+                  enableActiveFill: true,
+                  appContext: context,
+                ),
+
+                ///
+                ///
+                SizedBox(height: 8),
+                Consumer<OtpVerifyProvider>(
+                  builder: (context, otpVerifyProvider, _) {
+                    return Visibility(
+                      visible: otpVerifyProvider.otpVerifyInProgress == false,
+                      replacement: center_circular_progress_indicator(),
+                      child: FilledButton(
+                        onPressed: _onTapOtpVerifyButton,
+                        child: Text('Verify'),
                       ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
-              ),
-            ],
+                SizedBox(height: 30),
+                Center(
+                  child: Column(
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                          ),
+                          text: "Have account? ",
+                          children: [
+                            TextSpan(
+                              style: TextStyle(color: Colors.green),
+                              text: 'Sign in',
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = _onTapSignInButton,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -137,17 +143,12 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
       return;
     }
 
-    _verifyOtpInProgress = true;
-    setState(() {});
-
-    final NetworkResponse response = await NetworkCaller.getRequest(
-      Urls.recoverVerifyOtpUrl(email, otp),
+    final bool isSuccess = await _otpVerifyProvider.otpVerify(
+      email: email,
+      otp: otp,
     );
 
-    _verifyOtpInProgress = false;
-    setState(() {});
-
-    if (response.isSuccess) {
+    if (isSuccess) {
       showSnackBarMessage(context, "OTP verified successfully");
 
       Navigator.pushNamed(
@@ -155,8 +156,8 @@ class _OtpVerifyScreenState extends State<OtpVerifyScreen> {
         SetNewPassword.name,
         arguments: {"email": email, "otp": otp},
       );
-    }else{
-      showSnackBarMessage(context, response.errorMessage);
+    } else {
+      showSnackBarMessage(context, _otpVerifyProvider.errorMessage!);
     }
   }
 }
